@@ -2,33 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Five-Team Riddle Quest · Attendance + Location Scheduler</title>
+<title>Five-Team Riddle Quest · Swappable Locations</title>
 <style>
-:root{--ink:#142035;--muted:#66758b;--line:#d9e2ec;--blue:#1949a3;--pale:#f3f6fa;--white:#fff;--gold:#ffe8ad;--danger:#a32932;--ok:#126c46}*{box-sizing:border-box}body{margin:0;font:14px/1.42 system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:#f5f7fa}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #82a8ee;outline-offset:2px}.app{max-width:1650px;margin:auto;padding:28px}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.15em;color:var(--blue)}h1{margin:4px 0 4px;font-size:30px;letter-spacing:-.035em}h2{font-size:19px;margin:0}.sub{color:var(--muted);margin:0}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{background:white;color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:10px 13px;font-weight:650}.btn:hover{border-color:#97b1db;background:#f9fbff}.btn.primary{color:#fff;background:var(--blue);border-color:var(--blue)}.btn.danger{color:var(--danger)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 14px}.tab{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 19px;text-align:left;min-width:128px}.tab.active{background:var(--ink);border-color:var(--ink);color:#fff}.tab small{display:block;opacity:.72;margin-top:3px}.notice{padding:12px 15px;background:#eaf3ff;border:1px solid #cfe1ff;border-radius:10px;margin:12px 0;color:#21446f}.notice.warn{background:#fff5e8;border-color:#f2dbb4;color:#77511d}.layout{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:18px;align-items:start}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 3px 14px rgba(16,33,55,.025)}.bar{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.bar .small{font-size:12px;color:var(--muted)}.bracketScroll{overflow:auto;padding:16px}.bracket{min-width:790px;display:grid;grid-template-columns:minmax(150px,1.5fr) minmax(150px,1.5fr) minmax(150px,1.5fr) minmax(170px,1.65fr);grid-template-rows:repeat(8,minmax(88px,auto));gap:8px 12px;position:relative}.colhead{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 16px 8px;min-width:790px}.colhead div{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.node{position:relative;text-align:left;border:1px solid #dce4f0;background:#fff;border-radius:10px;padding:11px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:4px;transition:.12s}.node:hover{background:#f6f9ff;border-color:#91b0e3}.node.selected{background:#eaf2ff;border:2px solid var(--blue);padding:10px}.node .mini{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}.node .names{font-size:12px;overflow-wrap:anywhere;font-weight:650;max-height:42px;overflow:hidden}.node .place{color:#63738a;font-size:11px;overflow-wrap:anywhere;max-height:30px;overflow:hidden}.node .sym{font-size:17px;font-weight:900;line-height:1.1;color:#173e86}.node .badge{align-self:flex-start;background:#fff3d8;border-radius:5px;padding:2px 5px;font-size:10px;color:#684811;font-weight:700}.node.meet:before{content:'→';position:absolute;left:-13px;top:calc(50% - 11px);color:#91a0b2;font-weight:800;font-size:17px}.edit{padding:20px;position:sticky;top:14px}.edit h3{font-size:18px;margin:5px 0 7px}.hint{font-size:12px;color:var(--muted);margin:4px 0 16px}.field{display:block;margin:14px 0;font-size:12px;font-weight:750}.field input,.field textarea,.field select{display:block;margin-top:6px;border:1px solid #cbd7e5;border-radius:8px;padding:10px 11px;width:100%;background:#fff;color:#17233a;resize:vertical;font-size:13px;font-weight:450}.field textarea{min-height:83px}.field select{appearance:auto;cursor:pointer}.field select option:disabled{color:#89919b}.capacityCaption{font-size:12px;color:#4b5c72;font-weight:400;margin-top:6px;display:block}.locationBoard table{border-collapse:collapse;width:100%;min-width:650px;font-size:12px}.locationBoard th,.locationBoard td{border-bottom:1px solid var(--line);padding:9px 7px;text-align:left;vertical-align:top}.locationBoard th{background:#f3f6fb}.locationBoard .locationPlace{font-weight:800;min-width:120px}.locationBoard .slot{display:inline-block;font-size:11px;border:1px solid #c4d5ef;background:#eff5ff;border-radius:5px;padding:4px 6px;margin:1px 4px 3px 0;cursor:pointer;text-align:left}.locationBoard .slot:hover{background:#dbe9ff}.locationBoard .full{color:#925e10;font-size:11px;font-weight:800}.locationBoard .free{color:#16764d;font-size:11px}.locationBoard .invalid{color:var(--danger)}.locationBoard .boardScroll{overflow-x:auto}.locationBoard .marker{font-size:10px;background:#fff3d8;border-radius:4px;padding:2px 5px;display:inline-block;margin:2px}.field .desc{display:block;color:var(--muted);font-weight:450;margin:4px 0}.symbolrow{display:flex;gap:8px;align-items:center}.symbolrow input{flex:1}.bigSymbol{font-size:23px;background:#f1f5fd;border-radius:8px;padding:6px 10px;white-space:nowrap}.micro{font-size:12px;color:var(--muted)}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.metric{background:#f6f8fc;border:1px solid var(--line);border-radius:10px;padding:11px}.metric strong{display:block;font-size:22px}.metric span{font-size:11px;color:var(--muted)}.footbox{margin-top:18px;padding:18px 20px}.footbox h2{margin-bottom:8px}.footbox p{margin:7px 0;color:#495b72}.footbox ol{margin:8px 0;padding-left:20px}.footbox li{margin:6px 0}.selectionline{color:var(--muted);font-size:12px}.settings{display:flex;gap:8px;flex-wrap:wrap}.hidden{display:none!important}.printArea{display:none}.modalOverlay{position:fixed;inset:0;background:#142035aa;display:flex;align-items:center;justify-content:center;z-index:20;padding:20px}.modal{background:#fff;border-radius:14px;width:min(800px,100%);padding:24px;max-height:88vh;overflow:auto;box-shadow:0 20px 65px #0004}.modal textarea{display:block;width:100%;height:260px;padding:13px;resize:vertical;border:1px solid #becddd;border-radius:8px;font:13px/1.6 ui-monospace,monospace}.modal p{color:var(--muted)}.modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;flex-wrap:wrap}.status{color:var(--ok)}.error{color:var(--danger)}.attendance{padding:17px 20px;margin:0 0 17px}.attendanceTitle{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}.attendanceTitle h2{margin:0}.attendanceGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.attunit{border:1px solid var(--line);background:#f9fbff;border-radius:9px;padding:9px}.attunit .ord{font-size:10px;color:var(--muted);font-weight:750;text-transform:uppercase;margin:0 0 5px}.person{display:flex;align-items:center;gap:7px;font-size:12px;padding:5px 4px;border-radius:5px;cursor:pointer;min-width:0}.person span{overflow-wrap:anywhere}.person input{accent-color:var(--danger);flex-shrink:0;width:16px;height:16px}.person.away{background:#fff0f0;color:#8a2a34;text-decoration:line-through}.attStats{color:var(--muted);font-size:12px}.changeList{margin:10px 0 0;padding-left:20px}.changeList li{margin:5px 0}.node.empty{background:#f3f3f4;color:#969da6;border-style:dashed}.node.bypass{background:#fff7e7;border-color:#eed7ad}.node .skip{font-size:10px;font-weight:800;color:#a36500}.planTables{display:grid;gap:20px}.plan table{width:100%;border-collapse:collapse;font-size:12px}.plan th,.plan td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}.plan th{background:#f3f6fb}.plan td{overflow-wrap:anywhere}.pill{display:inline-block;padding:2px 6px;background:#eaf2ff;border-radius:5px;font-weight:750}.pill.skip{background:#ffefcf}.emptyInfo{color:#9a5960}.scenarios{margin-top:12px}.scenarios strong{color:var(--ink)}@media(max-width:900px){.attendanceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.attendanceGrid{grid-template-columns:1fr}.plan{overflow:auto}}@media(max-width:1020px){.layout{grid-template-columns:1fr}.edit{position:static}.app{padding:14px}h1{font-size:24px}}
+:root{--ink:#142035;--muted:#66758b;--line:#d9e2ec;--blue:#1949a3;--pale:#f3f6fa;--white:#fff;--gold:#ffe8ad;--danger:#a32932;--ok:#126c46}*{box-sizing:border-box}body{margin:0;font:14px/1.42 system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:#f5f7fa}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #82a8ee;outline-offset:2px}.app{max-width:1650px;margin:auto;padding:28px}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.15em;color:var(--blue)}h1{margin:4px 0 4px;font-size:30px;letter-spacing:-.035em}h2{font-size:19px;margin:0}.sub{color:var(--muted);margin:0}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{background:white;color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:10px 13px;font-weight:650}.btn:hover{border-color:#97b1db;background:#f9fbff}.btn.primary{color:#fff;background:var(--blue);border-color:var(--blue)}.btn.danger{color:var(--danger)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 14px}.tab{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 19px;text-align:left;min-width:128px}.tab.active{background:var(--ink);border-color:var(--ink);color:#fff}.tab small{display:block;opacity:.72;margin-top:3px}.notice{padding:12px 15px;background:#eaf3ff;border:1px solid #cfe1ff;border-radius:10px;margin:12px 0;color:#21446f}.notice.warn{background:#fff5e8;border-color:#f2dbb4;color:#77511d}.layout{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:18px;align-items:start}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 3px 14px rgba(16,33,55,.025)}.bar{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.bar .small{font-size:12px;color:var(--muted)}.bracketScroll{overflow:auto;padding:16px}.bracket{min-width:790px;display:grid;grid-template-columns:minmax(150px,1.5fr) minmax(150px,1.5fr) minmax(150px,1.5fr) minmax(170px,1.65fr);grid-template-rows:repeat(8,minmax(88px,auto));gap:8px 12px;position:relative}.colhead{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 16px 8px;min-width:790px}.colhead div{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.node{position:relative;text-align:left;border:1px solid #dce4f0;background:#fff;border-radius:10px;padding:11px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:4px;transition:.12s}.node:hover{background:#f6f9ff;border-color:#91b0e3}.node.selected{background:#eaf2ff;border:2px solid var(--blue);padding:10px}.node .mini{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}.node .names{font-size:12px;overflow-wrap:anywhere;font-weight:650;max-height:42px;overflow:hidden}.node .place{color:#63738a;font-size:11px;overflow-wrap:anywhere;max-height:30px;overflow:hidden}.node .sym{font-size:17px;font-weight:900;line-height:1.1;color:#173e86}.node .badge{align-self:flex-start;background:#fff3d8;border-radius:5px;padding:2px 5px;font-size:10px;color:#684811;font-weight:700}.node.meet:before{content:'→';position:absolute;left:-13px;top:calc(50% - 11px);color:#91a0b2;font-weight:800;font-size:17px}.edit{padding:20px;position:sticky;top:14px}.edit h3{font-size:18px;margin:5px 0 7px}.hint{font-size:12px;color:var(--muted);margin:4px 0 16px}.field{display:block;margin:14px 0;font-size:12px;font-weight:750}.field input,.field textarea,.field select{display:block;margin-top:6px;border:1px solid #cbd7e5;border-radius:8px;padding:10px 11px;width:100%;background:#fff;color:#17233a;resize:vertical;font-size:13px;font-weight:450}.field textarea{min-height:83px}.field select{appearance:auto;cursor:pointer}.field select option:disabled{color:#89919b}.capacityCaption{font-size:12px;color:#4b5c72;font-weight:400;margin-top:6px;display:block}.locationBoard table{border-collapse:collapse;width:100%;min-width:650px;font-size:12px}.locationBoard th,.locationBoard td{border-bottom:1px solid var(--line);padding:9px 7px;text-align:left;vertical-align:top}.locationBoard th{background:#f3f6fb}.locationBoard .locationPlace{font-weight:800;min-width:120px}.locationBoard .slot{display:inline-block;font-size:11px;border:1px solid #c4d5ef;background:#eff5ff;border-radius:5px;padding:4px 6px;margin:1px 4px 3px 0;cursor:pointer;text-align:left}.locationBoard .slot:hover{background:#dbe9ff}.locationBoard .full{color:#925e10;font-size:11px;font-weight:800}.locationBoard .free{color:#16764d;font-size:11px}.locationBoard .invalid{color:var(--danger)}.locationBoard .boardScroll{overflow-x:auto}.locationBoard .marker{font-size:10px;background:#fff3d8;border-radius:4px;padding:2px 5px;display:inline-block;margin:2px}.field .desc{display:block;color:var(--muted);font-weight:450;margin:4px 0}.symbolrow{display:flex;gap:8px;align-items:center}.symbolrow input{flex:1}.bigSymbol{font-size:23px;background:#f1f5fd;border-radius:8px;padding:6px 10px;white-space:nowrap}.micro{font-size:12px;color:var(--muted)}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.metric{background:#f6f8fc;border:1px solid var(--line);border-radius:10px;padding:11px}.metric strong{display:block;font-size:22px}.metric span{font-size:11px;color:var(--muted)}.footbox{margin-top:18px;padding:18px 20px}.footbox h2{margin-bottom:8px}.footbox p{margin:7px 0;color:#495b72}.footbox ol{margin:8px 0;padding-left:20px}.footbox li{margin:6px 0}.selectionline{color:var(--muted);font-size:12px}.settings{display:flex;gap:8px;flex-wrap:wrap}.hidden{display:none!important}.printArea{display:none}.modalOverlay{position:fixed;inset:0;background:#142035aa;display:flex;align-items:center;justify-content:center;z-index:20;padding:20px}.modal{background:#fff;border-radius:14px;width:min(800px,100%);padding:24px;max-height:88vh;overflow:auto;box-shadow:0 20px 65px #0004}.modal textarea{display:block;width:100%;height:260px;padding:13px;resize:vertical;border:1px solid #becddd;border-radius:8px;font:13px/1.6 ui-monospace,monospace}.modal p{color:var(--muted)}.swapModal{width:min(480px,100%)}.swapChoices{display:grid;gap:9px;margin:18px 0}.swapChoice{width:100%;text-align:left;padding:12px 14px;border:1px solid #b9cce9;border-radius:9px;background:#f6f9ff;cursor:pointer}.swapChoice:hover{background:#e7f0ff;border-color:#5481d0}.swapHint{color:var(--muted);font-size:12px}.modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;flex-wrap:wrap}.status{color:var(--ok)}.error{color:var(--danger)}.attendance{padding:17px 20px;margin:0 0 17px}.attendanceTitle{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}.attendanceTitle h2{margin:0}.attendanceGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.attunit{border:1px solid var(--line);background:#f9fbff;border-radius:9px;padding:9px}.attunit .ord{font-size:10px;color:var(--muted);font-weight:750;text-transform:uppercase;margin:0 0 5px}.person{display:flex;align-items:center;gap:7px;font-size:12px;padding:5px 4px;border-radius:5px;cursor:pointer;min-width:0}.person span{overflow-wrap:anywhere}.person input{accent-color:var(--danger);flex-shrink:0;width:16px;height:16px}.person.away{background:#fff0f0;color:#8a2a34;text-decoration:line-through}.attStats{color:var(--muted);font-size:12px}.changeList{margin:10px 0 0;padding-left:20px}.changeList li{margin:5px 0}.node.empty{background:#f3f3f4;color:#969da6;border-style:dashed}.node.bypass{background:#fff7e7;border-color:#eed7ad}.node .skip{font-size:10px;font-weight:800;color:#a36500}.planTables{display:grid;gap:20px}.plan table{width:100%;border-collapse:collapse;font-size:12px}.plan th,.plan td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}.plan th{background:#f3f6fb}.plan td{overflow-wrap:anywhere}.pill{display:inline-block;padding:2px 6px;background:#eaf2ff;border-radius:5px;font-weight:750}.pill.skip{background:#ffefcf}.emptyInfo{color:#9a5960}.scenarios{margin-top:12px}.scenarios strong{color:var(--ink)}@media(max-width:900px){.attendanceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.attendanceGrid{grid-template-columns:1fr}.plan{overflow:auto}}@media(max-width:1020px){.layout{grid-template-columns:1fr}.edit{position:static}.app{padding:14px}h1{font-size:24px}}
 @media print{@page{size:A4;margin:13mm}body{background:#fff;color:#000;font:10pt/1.35 Arial,sans-serif}.app,.modalOverlay{display:none!important}.printArea{display:block!important}.printArea h1{font-size:21pt}.printArea h2{font-size:14pt;margin:20px 0 7px}.printArea h3{font-size:11pt;margin:14px 0 5px}.printArea table{border-collapse:collapse;width:100%;font-size:8.5pt;margin:6px 0 16px}.printArea th,.printArea td{border:1px solid #aaa;padding:6px;vertical-align:top;overflow-wrap:anywhere}.printArea th{background:#eee;text-align:left}.printArea .page{break-before:page}.printArea .card{display:inline-block;width:47%;margin:1%;padding:10px;border:1.4px dashed #555;break-inside:avoid;vertical-align:top;min-height:120px}.printArea .card strong{font-size:14pt}.printArea .large{font-size:18pt;font-weight:bold}.printArea .small{font-size:8pt;color:#444}.printArea .break{break-before:page}.printArea .no-print{display:none}}
+
+/* Compact editor + inline synced location selectors */
+.node{cursor:pointer;gap:6px;min-height:80px}
+.node select{display:block;width:100%;min-width:0;border:1px solid #cbd8e9;border-radius:6px;padding:5px 3px;font-size:11px;color:#172f58;background:#fff;cursor:pointer}
+.node .names{max-height:none;font-size:12px}
+.node.empty{opacity:.65}
+.smallBadge{font-size:9px;font-weight:700;letter-spacing:.05em;color:#596881}
+.attendanceChanges{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:#36537e;margin-top:10px}
+.smallAlert{margin:12px 0;color:#9c2f38;font-size:12px}
+.tinyCount{display:block;font-size:10px;color:#66758b;margin-top:3px}
+.attendanceGrid{grid-template-columns:repeat(8,minmax(0,1fr))}
+.attunit{padding:6px}
+.person{font-size:11px}
+.hint{margin:4px 0 10px}
+.field{margin:12px 0}
+@media(max-width:1100px){.attendanceGrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:640px){.attendanceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
 <div class="app">
- <header class="top"><div><div class="eyebrow">ORGANIZER WORKSPACE</div><h1>Five-Team Riddle Quest · Locations & Attendance</h1><p class="sub">Five teams · unique meeting symbols · controlled location booking. Round 1: max 2 meetings at a place. Round 2 and final: max 1 each.</p></div><div class="actions"><button class="btn" id="importBtn">Import data</button><button class="btn" id="exportBtn">Export backup</button><button class="btn primary" id="printBtn">Print organizer kit</button></div></header>
+ <header class="top"><div><div class="eyebrow">GAME PLANNER</div><h1>Five-Team Riddle Quest</h1><p class="sub">5 teams · 8 → 4 → 2 → 1 · locations & attendance</p></div><div class="actions"><button class="btn" id="importBtn">Import</button><button class="btn" id="exportBtn">Backup</button><button class="btn primary" id="printBtn">Print</button></div></header>
  <nav class="tabs" id="tabs" aria-label="Teams"></nav>
  <section class="attendance panel" id="attendance"></section>
  <div id="notices"></div>
  <main class="layout">
-  <section class="panel"><div class="bar"><div><h2 id="teamTitle">Team 1</h2><div class="small">Select a starting unit or meeting to edit it on the right.</div></div><div class="settings"><button class="btn" id="pasteBtn">Paste 8 units</button><button class="btn" id="balanceBtn">Balance pairs</button></div></div><div class="bracketScroll"><div class="colhead"><div>Start · 8 units</div><div>Round 1 · 4 meets</div><div>Round 2 · 2 meets</div><div>Final · 1 meet</div></div><div class="bracket" id="bracket"></div></div></section>
+  <section class="panel"><div class="bar"><div><h2 id="teamTitle">Team 1</h2><div class="small">Choose a location; occupied places swap automatically.</div></div><div class="settings"><button class="btn" id="pasteBtn">Paste 8 units</button><button class="btn" id="balanceBtn">Balance pairs</button></div></div><div class="bracketScroll"><div class="colhead"><div>Start · 8 units</div><div>Round 1 · 4 meets</div><div>Round 2 · 2 meets</div><div>Final · 1 meet</div></div><div class="bracket" id="bracket"></div></div></section>
   <aside class="panel edit" id="editor"></aside>
  </main>
  <div class="summary" id="summary"></div>
  <section class="panel footbox locationBoard" id="locationBoard"></section>
  <section class="panel footbox" id="plan"></section>
- <section class="panel footbox"><h2>How attendance changes the quest</h2><p>Check <strong>Absent</strong> next to a person's name. Empty starting spots are filled by separating an intact starting pair, choosing the <strong>last originally listed duo first</strong>. The second name in that duo moves into the vacant starting spot, using that spot's clue and initial location.</p><p>When no whole duo is left to divide, a starting spot stays vacant. If this creates seven starting units, the unit opposite the vacant spot <strong>skips Round 1</strong> and receives its Round 2 clue immediately. Skipped meetings have no envelope to plant.</p><p>All five teams retain their original rosters and meeting instructions. Mark everyone present to restore the default plan. Your choices are saved in this browser; export backups before moving devices.</p></section>
+
 </div>
 <div class="printArea" id="printArea"></div>
 <div class="modalOverlay hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><h2 id="modalTitle"></h2><p id="modalHelp"></p><textarea id="modalText"></textarea><p id="modalStatus"></p><footer><button class="btn" id="modalCancel">Cancel</button><button class="btn primary" id="modalApply">Apply</button></footer></div></div>
+<div class="modalOverlay hidden" id="swapOverlay" role="dialog" aria-modal="true" aria-labelledby="swapTitle"><div class="modal swapModal"><h2 id="swapTitle">Choose meeting to swap</h2><p id="swapHelp"></p><div id="swapChoices" class="swapChoices"></div><footer><button class="btn" id="swapCancel">Cancel</button></footer></div></div>
 <input type="file" id="fileInput" accept=".json,application/json" style="display:none">
 <script>
 (()=>{'use strict';
-const STORE='riddle-quest-five-trees-location-capacity-v4', PREVIOUS='riddle-quest-five-trees-fullnames-v3', LEGACY='riddle-quest-five-trees-with-rosters-v2', OLDER='riddle-quest-five-trees-with-rosters-v1';
+const STORE='riddle-quest-five-trees-simple-locations-v5', LAST='riddle-quest-five-trees-location-capacity-v4', PREVIOUS='riddle-quest-five-trees-fullnames-v3', LEGACY='riddle-quest-five-trees-with-rosters-v2', OLDER='riddle-quest-five-trees-with-rosters-v1';
 const icons=['★','◆','●','▲','■','♥','☀','☾','☁','☘','♣','♠','♜','⚑','⚓','⚙','✿','✪','✧','✚','✖','◈','⬟','⬢','◉','◎','☯','☮','♫','☕','☂','☎','✈','✉','☺'];
 const meetings=[8,9,10,11,12,13,14],parents=[8,8,9,9,10,10,11,11,12,12,13,13,14,14,null];
 const PLACES=['Ping pong','CP','Hangar 7e','Chapelle','Dekken','Grafiti','Salle de ballet','Lougha','CE1','Cherokee'];
@@ -61,21 +79,38 @@ function upgradeNames(d){
 
 function valid(d){return d&&Array.isArray(d.teams)&&d.teams.length===5&&d.teams.every(t=>t&&Array.isArray(t.units)&&t.units.length===8&&t.meetings&&meetings.every(i=>t.meetings[i]));}
 let data=fresh();
-try{const current=JSON.parse(localStorage.getItem(STORE)||localStorage.getItem(PREVIOUS)||localStorage.getItem(LEGACY)||localStorage.getItem(OLDER));if(valid(current))data=upgradeNames(current);}catch{}
+const hasSimpleSave=!!localStorage.getItem(STORE);
+try{const current=JSON.parse(localStorage.getItem(STORE)||localStorage.getItem(LAST)||localStorage.getItem(PREVIOUS)||localStorage.getItem(LEGACY)||localStorage.getItem(OLDER));if(valid(current))data=upgradeNames(current);}catch{}
 data.teams.forEach(t=>{if(!Array.isArray(t.absent))t.absent=[];});
-// Preserve legacy Star locations in setup notes. Only valid locations can be booked.
-function normalizePlaces(d){
- d.teams.forEach(t=>meetings.forEach(id=>{
-  const m=t.meetings[id],old=String(m.location||'').trim();
-  if(old==='Ballet'){m.location='Salle de ballet';return}
-  if(old&&!PLACES.includes(old)){
-   const reminder='Original location (not on the new list): '+old;
-   if(!String(m.instructions||'').includes(reminder))m.instructions=[m.instructions,reminder].filter(Boolean).join('\n');
-   m.location='';
-  }
- }));
+// Deterministic initial bookings across all five teams: 20 / 10 / 5 meetings.
+// Each Round 1 place hosts exactly 2 meetups, each Round 2 place hosts 1.
+const ORDER=['Salle de ballet','Hangar 7e','Cherokee','Ping pong','Lougha','Dekken','CP','CE1','Grafiti','Chapelle'];
+function assignInitialLocations(d){
+ d.teams.forEach((t,ti)=>{
+  t.units.forEach(u=>{u.note=''});
+  meetings.forEach(id=>{
+   const m=t.meetings[id];
+   m.riddle='';m.instructions='';
+   const index=id<12?(ti*4+id-8)%10:id<14?(ti*2+id-12+3)%10:(ti*2+7)%10;
+   m.location=ORDER[index];
+  });
+ });
  return d;
 }
+function normalizePlaces(d){
+ d.teams.forEach(t=>{
+  t.units.forEach(u=>{u.note=''});
+  meetings.forEach(id=>{
+   const m=t.meetings[id];
+   if(m.location==='Ballet')m.location='Salle de ballet';
+   if(m.location&&!PLACES.includes(m.location))m.location='';
+   m.riddle='';m.instructions='';
+  });
+ });
+ return d;
+}
+if(!hasSimpleSave)assignInitialLocations(data);
+else normalizePlaces(data);
 function usesAt(round,place,excludeTeam=-1,excludeId=-1){
  const used=[];
  if(!place)return used;
@@ -98,8 +133,6 @@ function reconcileLocations(){
   if(matches.length>cap){
    matches.slice(cap).forEach(({ti,id})=>{
     const m=data.teams[ti].meetings[id];
-    const memo='Previous reserved place (freed due to attendance/capacity): '+place;
-    if(!String(m.instructions||'').includes(memo))m.instructions=[m.instructions,memo].filter(Boolean).join('\n');
     m.location='';
     reassignmentWarnings.push(data.teams[ti].name+' '+label(id)+' needs a new location; '+place+' was fully booked.');
    });
@@ -135,87 +168,193 @@ function derive(t,ti){
 }
 function get(){return derive(data.teams[active],active)}
 function renderTabs(){$('tabs').innerHTML=data.teams.map((t,i)=>{const s=derive(t,i);return `<button class="tab ${i===active?'active':''}" data-tab="${i}" aria-pressed="${i===active}"><strong>${esc(t.name||'Team '+(i+1))}</strong><small>${s.available}/${fullNames(t).length} coming · ${s.liveMeetings.length} meets</small></button>`}).join('');document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{active=Number(b.dataset.tab);selection=0;render()})}
-function renderAttendance(){const t=data.teams[active],s=get();$('attendance').innerHTML=`<div class="attendanceTitle"><div><h2>Attendance · ${esc(t.name)}</h2><div class="attStats"><strong>${s.available}/${fullNames(t).length}</strong> people attending · ${s.moved.length} split pairs · ${s.byes.length} skipped meetings. Check anyone who will <strong>not</strong> attend.</div></div><button class="btn" id="allPresent">Mark everyone present</button></div><div class="attendanceGrid">${t.units.map((u,i)=>`<div class="attunit"><div class="ord">Original unit ${i+1}${unitNames(u).length===2?' · original duo':''}</div>${unitNames(u).map((name,j)=>`<label class="person ${t.absent.includes(name)?'away':''}"><input type="checkbox" data-absent="${i}:${j}" ${t.absent.includes(name)?'checked':''}><span>${esc(name)}</span></label>`).join('')}</div>`).join('')}</div><div class="scenarios">${s.moved.length?`<strong>Automatic changes:</strong><ul class="changeList">${s.moved.map(x=>`<li><strong>${esc(x.person)}</strong> leaves the original duo in Unit ${x.from+1} (with ${esc(x.remaining)}) and instead starts as <strong>Unit ${x.to+1}</strong>. Give ${esc(x.person)} Unit ${x.to+1}'s starting clue.</li>`).join('')}</ul>`:''}${s.byes.length?`<p class="notice warn"><strong>Bye / no Round 1 meeting:</strong> ${s.byes.map(id=>`Meeting ${esc(label(id))}${t.meetings[id].location?' at '+esc(t.meetings[id].location):''}`).join('; ')} ${s.available>=7?'The affected unit goes straight to its next active meeting, with that meeting’s clue and symbol.':'The app skips every meeting without two arriving sides.'}</p>`:''}${!s.moved.length&&!s.byes.length?'<p class="micro">No reassignment or skipped meetings needed.</p>':''}</div>`;
+function renderAttendance(){
+ const t=data.teams[active],s=get();
+ $('attendance').innerHTML=`<div class="attendanceTitle"><div><h2>Attendance · ${esc(t.name)}</h2><div class="attStats">${s.available}/${fullNames(t).length} coming · Tick absent participants</div></div><button class="btn" id="allPresent">All present</button></div><div class="attendanceGrid">${t.units.map((u,i)=>`<div class="attunit"><div class="ord">Start ${i+1}${unitNames(u).length===2?' · duo':''}</div>${unitNames(u).map((name,j)=>`<label class="person ${t.absent.includes(name)?'away':''}"><input type="checkbox" data-absent="${i}:${j}" ${t.absent.includes(name)?'checked':''}><span>${esc(name)}</span></label>`).join('')}</div>`).join('')}</div>${s.moved.length||s.byes.length?`<div class="attendanceChanges">${s.moved.map(x=>`<div>${esc(x.person)}: start ${x.from+1} → ${x.to+1}</div>`).join('')}${s.byes.map(id=>`<div>${esc(label(id))}: bye (no envelope)</div>`).join('')}</div>`:''}`;
  $('attendance').querySelectorAll('[data-absent]').forEach(inp=>inp.onchange=()=>{const [i,j]=inp.dataset.absent.split(':').map(Number),name=unitNames(t.units[i])[j];if(!name)return;t.absent=t.absent.filter(n=>n!==name);if(inp.checked)t.absent.push(name);reconcileLocations();save();render()});
- $('allPresent').onclick=()=>{t.absent=[];reconcileLocations();save();render()};}
+ $('allPresent').onclick=()=>{t.absent=[];reconcileLocations();save();render()};
+}
 function symbolConflicts(){const uses=new Map();data.teams.forEach((t,ti)=>derive(t,ti).liveMeetings.forEach(id=>{const k=String(t.meetings[id].symbol||'').trim();if(k){if(!uses.has(k))uses.set(k,[]);uses.get(k).push([ti,id])}}));return [...uses.values()].filter(a=>a.length>1)}
-function renderNotices(){const t=data.teams[active],s=get(),w=[];if(active===3)w.push('Bouli = Charbel Abou Faycal (confirmed). Kamal Ghsoub is not participating and is not assigned to any of the five team trees.');if(active===2)w.push('Ditto was matched to Andrew Zaytoun by elimination from the Faucon roster; please confirm this nickname matches.');if(s.available<7)w.push('Fewer than seven participants are coming. More than one bye may be needed; check the active placement plan before printing.');if(s.available===0)w.push('No participants marked present.');if(t.units.some(u=>unitNames(u).length>2))w.push('Some starting units contain more than two names.');if(symbolConflicts().some(c=>c.some(x=>x[0]===active)))w.push('At least one active meeting symbol duplicates another active meeting symbol.');if(reassignmentWarnings.length)w.push(reassignmentWarnings.join(' '));const missing=s.liveMeetings.filter(id=>!PLACES.includes(String(t.meetings[id].location||'')));if(missing.length)w.push(missing.length+' active meeting(s) still need a location from the approved dropdown.');$('notices').innerHTML=w.length?`<div class="notice warn"><strong>Check:</strong> ${esc(w.join(' '))}</div>`:`<div class="notice">${s.available} people attending. <strong>${s.liveMeetings.length} active meetings</strong> · ${s.skipped.length} locations/envelopes skipped. Starting clues and placement kit reflect attendance automatically.</div>`}
-function renderBracket(){const t=data.teams[active],s=get();let html='';for(let id=0;id<=14;id++){
- const col=id<8?1:id<12?2:id<14?3:4,span=id<8?1:id<12?2:id<14?4:8,row=id<8?id+1:id<12?1+2*(id-8):id<14?1+4*(id-12):1;
- const names=s.nodePeople[id],m=t.meetings[id],live=id>=8&&s.activeMeeting(id),pass=id>=8&&!live&&names.length>0,empty=!names.length;
- html+=`<button type="button" class="node ${id>=8?'meet':''} ${selection===id?'selected':''} ${empty?'empty':''} ${pass?'bypass':''}" data-node="${id}" style="grid-column:${col};grid-row:${row}/span ${span}"><span class="mini">${id<8?'UNIT '+(id+1):id<12?'ROUND 1 · MEET '+(id-7):id<14?'ROUND 2 · MEET '+(id-11):'FINAL'}</span>${live?`<span class="sym">${formatSymbol(m)}</span>`:pass?'<span class="skip">BYPASS · NO ENVELOPE</span>':''}<span class="names">${empty?'Empty / not used':esc(list(names))}</span>${id<8&&names.length===2?'<span class="badge">START TOGETHER · 2</span>':''}${id<8&&s.moved.some(x=>x.to===id)?'<span class="badge">FILLED FROM DUO</span>':''}${id<8&&t.units[id].note?`<span class="place">${esc(t.units[id].note)}</span>`:''}${id>=8&&live?`<span class="place">${esc(m.location||'Set meeting location')}</span>`:''}</button>`;
-} $('bracket').innerHTML=html;document.querySelectorAll('[data-node]').forEach(b=>b.onclick=()=>{selection=Number(b.dataset.node);renderBracket();renderEditor()});}
-function field(label,key,value,multi=false,description=''){return `<label class="field">${label}${description?`<span class="desc">${description}</span>`:''}${multi?`<textarea data-field="${key}" rows="3">${esc(value)}</textarea>`:`<input data-field="${key}" value="${esc(value)}">`}</label>`}
-function locationField(ti,id){
- const m=data.teams[ti].meetings[id],r=roundOf(id),cap=ROUND_LIMIT[r],selected=String(m.location||'');
- const slots=PLACES.map(place=>{
-  const others=usesAt(r,place,ti,id),taken=others.length,available=cap-taken,full=available<=0;
-  const note=others.map(x=>data.teams[x.ti].name+' · '+label(x.id)).join(', ');
-  return `<option value="${esc(place)}" ${selected===place?'selected':''} ${full&&selected!==place?'disabled':''}>${esc(place)} — ${Math.max(0,available)} slot${available===1?'':'s'} available${full?' (FULL)':''}</option>`;
+function renderNotices(){
+ const s=get(),t=data.teams[active],missing=s.liveMeetings.filter(id=>!PLACES.includes(t.meetings[id].location));
+ const warnings=[];
+ if(missing.length)warnings.push(`${missing.length} meeting location${missing.length===1?'':'s'} unassigned`);
+ if(s.available<7)warnings.push('Under 7 players');
+ if(symbolConflicts().some(c=>c.some(([ti])=>ti===active)))warnings.push('Duplicate meeting symbols');
+ $('notices').innerHTML=warnings.length?`<div class="smallAlert">${esc(warnings.join(' · '))}</div>`:'';
+}
+function renderBracket(){
+ const t=data.teams[active],s=get();let html='';
+ for(let id=0;id<=14;id++){
+  const col=id<8?1:id<12?2:id<14?3:4,span=id<8?1:id<12?2:id<14?4:8,row=id<8?id+1:id<12?1+2*(id-8):id<14?1+4*(id-12):1;
+  const names=s.nodePeople[id],m=t.meetings[id],live=id>=8&&s.activeMeeting(id),pass=id>=8&&!live&&names.length>0,empty=!names.length;
+  const target=id<8?parents[id]:id,meet=t.meetings[target];
+  html+=`<div tabindex="0" role="button" aria-label="Edit ${esc(label(id))}" class="node ${id>=8?'meet':''} ${selection===id?'selected':''} ${empty?'empty':''} ${pass?'bypass':''}" data-node="${id}" style="grid-column:${col};grid-row:${row}/span ${span}"><span class="mini">${id<8?'START '+(id+1):id<12?'ROUND 1 · '+(id-7):id<14?'ROUND 2 · '+(id-11):'FINAL'}</span>${live?`<span class="sym">${formatSymbol(m)}</span>`:pass?'<span class="skip">BYE</span>':''}<span class="names">${empty?'—':esc(list(names))}</span>${id<8&&names.length===2?'<span class="smallBadge">DUO</span>':''}<select data-inline-location="${target}" aria-label="${esc(label(id))} location">${locationOptions(active,target)}</select></div>`;
+ }
+ $('bracket').innerHTML=html;
+ $('bracket').querySelectorAll('[data-node]').forEach(el=>{
+  el.onclick=e=>{if(e.target.closest('select'))return;selection=Number(el.dataset.node);renderBracket();renderEditor()};
+  el.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target===el){e.preventDefault();el.click()}};
  });
- return `<label class="field">Meeting location<span class="desc">Choose from the 10 locations. ${ROUND_NAMES[r]} allows ${cap} meeting${cap===1?'':'s'} per location, across ALL teams.</span><select data-field="location" ${!derive(data.teams[ti],ti).activeMeeting(id)?'aria-label="Location for currently skipped meeting"':''}><option value="" ${!selected?'selected':''}>— Choose a location —</option>${slots.join('')}</select><span class="capacityCaption">${selected?`Booked: ${esc(selected)} · ${Math.min(cap,usesAt(r,selected).length)}/${cap} currently active meeting(s)`:'Not yet booked. Full locations are disabled.'}</span></label>`;
+ $('bracket').querySelectorAll('[data-inline-location]').forEach(el=>el.onchange=()=>{
+  const id=Number(el.dataset.inlineLocation);
+  changeLocation(active,id,el.value);
+ });
+}
+function field(label,key,value,multi=false,description=''){return `<label class="field">${label}${description?`<span class="desc">${description}</span>`:''}${multi?`<textarea data-field="${key}" rows="3">${esc(value)}</textarea>`:`<input data-field="${key}" value="${esc(value)}">`}</label>`}
+function locationOptions(ti,id){
+ const m=data.teams[ti].meetings[id],r=roundOf(id),cap=ROUND_LIMIT[r],selected=String(m.location||'');
+ return `<option value="" ${!selected?'selected':''}>Choose place</option>`+PLACES.map(place=>{
+  const taken=usesAt(r,place,ti,id).length,full=taken>=cap;
+  return `<option value="${esc(place)}" ${selected===place?'selected':''}>${esc(place)}${full&&selected!==place?' · Swap':''}</option>`;
+ }).join('');
+}
+function locationField(ti,id,title='Location'){
+ return `<label class="field">${esc(title)}<select data-field="location" data-meet="${id}">${locationOptions(ti,id)}</select></label>`;
+}
+function assignLocation(ti,id,place){
+ const r=roundOf(id);
+ if(place&&(!PLACES.includes(place)||usesAt(r,place,ti,id).length>=ROUND_LIMIT[r]))return false;
+ data.teams[ti].meetings[id].location=place;
+ return true;
+}
+// Exchange two meeting locations atomically, retaining each meeting's identity/symbol.
+// If the requesting meeting had no place, the displaced meeting becomes unassigned.
+function swapLocations(ti,id,otherTi,otherId){
+ const round=roundOf(id);
+ if(round!==roundOf(otherId)||ti===otherTi&&id===otherId)return false;
+ const a=data.teams[ti].meetings[id],b=data.teams[otherTi].meetings[otherId];
+ const oldPlace=a.location||'',newPlace=b.location||'';
+ if(oldPlace===newPlace||!PLACES.includes(newPlace))return false;
+ // When the requesting meeting has a location, swapping cannot overbook it.
+ // Important for dormant meetings (which do not consume capacity until attendance changes).
+ if(oldPlace){
+  const occupants=usesAt(round,oldPlace,ti,id).filter(x=>!(x.ti===otherTi&&x.id===otherId));
+  if(occupants.length>=ROUND_LIMIT[round])return false;
+ }
+ a.location=newPlace;
+ b.location=oldPlace;
+ return true;
+}
+function closeSwap(){ $('swapOverlay').classList.add('hidden'); }
+$('swapCancel').onclick=()=>{closeSwap();render()};
+$('swapOverlay').onclick=e=>{if(e.target===$('swapOverlay')){closeSwap();render()}};
+function changeLocation(ti,id,place){
+ const current=data.teams[ti].meetings[id].location||'';
+ if(place===current){render();return}
+ if(!place){data.teams[ti].meetings[id].location='';save();render();return}
+ if(!PLACES.includes(place)){render();return}
+ const round=roundOf(id),occupied=usesAt(round,place,ti,id);
+ if(occupied.length<ROUND_LIMIT[round]){
+  if(assignLocation(ti,id,place)){save();render();return}
+ }
+ // Full location: no disabled options. The organizer selects which meetup to exchange.
+ // When only one meetup occupies the target location, swap immediately.
+ if(occupied.length===1){
+  const other=occupied[0];
+  if(swapLocations(ti,id,other.ti,other.id)){save();render();return}
+  alert('Swap unavailable: the previous location is also full.');render();return;
+ }
+ $('swapHelp').textContent=`${data.teams[ti].name} · ${label(id)}: swap ${current||'Unassigned'} with ${place}.`;
+ $('swapChoices').innerHTML=occupied.map(({ti:ot,id:oid})=>{
+  const other=data.teams[ot],who=list(derive(other,ot).nodePeople[oid]);
+  return `<button type="button" class="swapChoice" data-swap="${ot}:${oid}"><strong>${esc(other.name)} · ${esc(label(oid))}</strong><br><span class="swapHint">${esc(who)}</span></button>`;
+ }).join('');
+ $('swapOverlay').classList.remove('hidden');
+ $('swapChoices').querySelectorAll('[data-swap]').forEach(button=>button.onclick=()=>{
+  const [ot,oid]=button.dataset.swap.split(':').map(Number);
+  if(!swapLocations(ti,id,ot,oid)){alert('Swap unavailable: the previous location is also full.');closeSwap();render();return}
+  closeSwap();save();render();
+ });
 }
 function renderLocationBoard(){
  const rows=PLACES.map(place=>{
   const cells=[1,2,3].map(round=>{
    const used=usesAt(round,place),cap=ROUND_LIMIT[round];
-   const detail=used.map(({ti,id})=>`<button class="slot" type="button" data-jump="${ti}:${id}" title="Edit ${esc(data.teams[ti].name)} ${esc(label(id))}">${esc(data.teams[ti].name)} · ${esc(label(id).replace('Round 1 · ','').replace('Round 2 · ',''))}</button>`).join('');
-   return `<td>${detail||'<span class="micro">No meeting</span>'}<div class="${used.length>=cap?'full':'free'}">${used.length}/${cap} used · ${Math.max(0,cap-used.length)} free</div></td>`;
+   const buttons=used.map(({ti,id})=>`<button class="slot" type="button" data-jump="${ti}:${id}">${esc(data.teams[ti].name)} ${round===3?'Final':'#'+(id-(round===1?7:11))}</button>`).join('');
+   return `<td>${buttons}<span class="tinyCount">${used.length}/${cap}</span></td>`;
   });
   return `<tr><td class="locationPlace">${esc(place)}</td>${cells.join('')}</tr>`;
  });
- const totals=[1,2,3].map(r=>data.teams.reduce((total,t,ti)=>total+derive(t,ti).liveMeetings.filter(id=>roundOf(id)===r&&PLACES.includes(String(t.meetings[id].location))).length,0));
- $('locationBoard').innerHTML=`<div class="attendanceTitle"><div><h2>Meeting location scheduler · All five teams</h2><p class="micro">Each place can host <strong>2 Round 1 meetings</strong> (4 merging groups total), <strong>1 Round 2 meeting</strong>, and <strong>1 final reunion</strong>. Capacity is checked separately per round. Click a booking to edit it.</p></div></div><div class="boardScroll"><table><thead><tr><th>Place</th><th>Round 1 · 2 per place (${totals[0]}/20 booked)</th><th>Round 2 · 1 per place (${totals[1]}/10 booked)</th><th>Final · 1 per place (${totals[2]}/5 booked)</th></tr></thead><tbody>${rows.join('')}</tbody></table></div><p class="micro">Only <strong>active</strong> meetings consume a slot. Absence-related byes free up slots; reactivated meetings are checked again automatically. Locations that are no longer on the permitted list must be reassigned.</p>`;
+ $('locationBoard').innerHTML=`<h2>Location schedule</h2><div class="boardScroll"><table><thead><tr><th>Place</th><th>Round 1 · max 2</th><th>Round 2 · max 1</th><th>Final · max 1</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
  $('locationBoard').querySelectorAll('[data-jump]').forEach(el=>el.onclick=()=>{const [ti,id]=el.dataset.jump.split(':').map(Number);active=ti;selection=id;render();$('editor').scrollIntoView({behavior:'smooth',block:'start'})});
 }
-function renderEditor(){const t=data.teams[active],s=get(),id=selection;
- if(id<8){const orig=t.units[id],first=s.first[id],meet=first===null?null:t.meetings[first];$('editor').innerHTML=`<div class="eyebrow">STARTING UNIT</div><h3>Unit ${id+1}</h3><p class="hint">Edit the master roster here. For absences, use the attendance checklist above instead of deleting names.</p>${field('Original person / people','names',orig.names,true,'One name per line. A duo stays together unless attendance rules split it.')}${field('Original starting spot / organizer note','note',orig.note,true,'Used for whoever occupies this starting unit on game day.')}<div class="notice"><strong>Actual people starting here:</strong> ${esc(list(s.units[id]))}<hr>${!s.units[id].length?'No one starts here. Do not hand out a card.':first===null?'No meeting remains: issue completion instructions directly.':`<strong>Give this unit:</strong> <span style="font-size:22px;font-weight:800">${formatSymbol(meet)}</span><br><strong>Riddle:</strong> ${esc(meet.riddle||'(Not written yet)')}<br><strong>Destination:</strong> ${esc(meet.location||'(Not set)')}<br><strong>Meeting:</strong> ${esc(label(first))}${first!==parents[id]?' · direct advance / bye':''}`}</div>`;
- } else {const m=t.meetings[id],p=s.nextMeeting(id),nm=p===null?null:t.meetings[p],live=s.activeMeeting(id),empty=!s.nodePeople[id].length;
- $('editor').innerHTML=`<div class="eyebrow">${id<12?'ROUND 1':id<14?'ROUND 2':'FINAL'}</div><h3>${esc(label(id))}</h3><p class="hint">${esc(list(s.nodePeople[id]))}</p><div class="notice ${!live?'warn':''}"><strong>${live?'ACTIVE MEETING — place an envelope':'SKIPPED — do not place an envelope here'}</strong><br>${!live?(empty?'No participants reach this branch.':'Only one group reaches this node. Their clue must lead directly to the next active meeting.'):p!==null?`Envelope <strong>${formatSymbol(m)}</strong> contains the next clue: <strong>${formatSymbol(nm)}</strong> — ${esc(nm.riddle||'(Riddle not set)')} → ${esc(nm.location||'(Location not set)')}`:`Envelope <strong>${formatSymbol(m)}</strong> contains the final message.`}</div>${field('Meeting symbol','symbol',m.symbol,false,'Print on the incoming clue cards and the envelope for this meeting.')}${locationField(active,id)}${field('Riddle leading to this meeting','riddle',m.riddle,true,'The clue for this meeting is assigned automatically to its incoming people/groups.')}${field('Setup instructions','instructions',m.instructions,true)}${id===14?field('Final envelope message','finish',t.finish,true):''}`;
+function renderEditor(){
+ const t=data.teams[active],s=get(),id=selection;
+ if(id<8){
+  const orig=t.units[id],first=s.first[id],meet=first===null?null:t.meetings[first];
+  $('editor').innerHTML=`<div class="eyebrow">START ${id+1}</div><h3>${esc(list(s.units[id]))}</h3>${field('Names','names',orig.names,true)}${locationField(active,parents[id],'First meeting location')}${s.first[id]!==parents[id]?`<p class="micro">${first===null?'No meeting':'Bye → '+esc(meet?.location||'Choose location')}</p>`:''}`;
+ } else {
+  const m=t.meetings[id],p=s.nextMeeting(id),next=p===null?null:t.meetings[p];
+  $('editor').innerHTML=`<div class="eyebrow">${id<12?'ROUND 1':id<14?'ROUND 2':'FINAL'}</div><h3>${esc(label(id))}</h3><p class="hint">${esc(list(s.nodePeople[id]))}</p>${locationField(active,id)}${field('Symbol','symbol',m.symbol)}${p!==null?`<p class="micro">Next → ${esc(next.location||'Unassigned')} · ${formatSymbol(next)}</p>`:''}`;
  }
- $('editor').querySelectorAll('[data-field]').forEach(inp=>{const update=()=>{const key=inp.dataset.field;if(id<8)t.units[id][key]=inp.value;else if(key==='finish')t.finish=inp.value;else if(key==='location'){
-  const place=inp.value,r=roundOf(id);
-  if(place&&(!PLACES.includes(place)||usesAt(r,place,active,id).length>=ROUND_LIMIT[r])){
-   alert('This location is fully booked for '+ROUND_NAMES[r]+'. Please choose an available place.');
-   renderEditor();return;
-  }
-  t.meetings[id].location=place;
-  reassignmentWarnings=[];
- }else t.meetings[id][key]=inp.value;
- save();renderTabs();renderAttendance();renderNotices();renderBracket();renderSummary();renderLocationBoard();renderPlan();
- const pos=inp.tagName==='SELECT'?null:inp.selectionStart,scroll=inp.scrollTop;
- renderEditor();const target=$('editor').querySelector(`[data-field="${key}"]`);
- if(target){target.focus();if(pos!=null&&target.setSelectionRange)target.setSelectionRange(pos,pos);target.scrollTop=scroll}
- };inp.addEventListener(inp.tagName==='SELECT'?'change':'input',update)});
+ $('editor').querySelectorAll('[data-field]').forEach(inp=>{
+  const update=()=>{
+   const key=inp.dataset.field;
+   if(key==='names'){t.units[id].names=inp.value;reconcileLocations()}
+   else if(key==='location'){
+    const target=Number(inp.dataset.meet);
+    changeLocation(active,target,inp.value);return
+   }else if(key==='symbol'){t.meetings[id].symbol=inp.value}
+   save();
+   if(inp.tagName==='SELECT'){render();return}
+   const pos=inp.selectionStart;
+   renderTabs();renderAttendance();renderNotices();renderBracket();renderSummary();renderLocationBoard();renderPlan();
+   if(key==='symbol')return;
+   // Keep cursor in editable name field without replacing the text area.
+   inp.focus();if(pos!=null&&inp.setSelectionRange)inp.setSelectionRange(pos,pos);
+  };
+  inp.addEventListener(inp.tagName==='SELECT'?'change':'input',update);
+ });
 }
-function renderSummary(){const t=data.teams[active],s=get(),pairCount=s.units.filter(x=>x.length===2).length,ready=s.liveMeetings.filter(id=>t.meetings[id].riddle&&t.meetings[id].location).length;$('teamTitle').textContent=t.name+' · '+s.available+' attending';$('summary').innerHTML=`<div class="metric"><strong>${s.available}/${fullNames(t).length}</strong><span>Attending / roster</span></div><div class="metric"><strong>${s.units.filter(a=>a.length).length}</strong><span>Starting units in use · ${pairCount} duo(s)</span></div><div class="metric"><strong>${ready}/${s.liveMeetings.length}</strong><span>Active meetings with location and riddle</span></div>`}
-function startingRows(t,s){return s.units.map((people,i)=>{if(!people.length)return null;const id=s.first[i],m=id===null?null:t.meetings[id],pass=id!==null&&id!==parents[i];return [String(i+1),h(list(people)),h(t.units[i].note),id===null?'No meeting':`<strong>${h(label(id))}</strong>${pass?' <span class="pill skip">BYE: skip Round 1</span>':''}`,m?`<span class="pill">${h(m.symbol)}</span> ${h(m.riddle)}<div class="micro">Destination: ${h(m.location)}</div>`:'Completion message']}).filter(Boolean)}
-function envelopeRows(t,s){return s.liveMeetings.map(id=>{const m=t.meetings[id],p=s.nextMeeting(id),next=p===null?null:t.meetings[p];return [h(label(id)),h(m.location),`<span class="pill">${h(m.symbol)}</span>`,h(list(s.nodePeople[id])),next?`<strong>Symbol: ${h(next.symbol)}</strong><br>${h(next.riddle)}<div class="micro">Destination: ${h(next.location)} · ${h(label(p))}</div>`:h(t.finish)]})}
-function renderPlan(){const t=data.teams[active],s=get();$('plan').innerHTML=`<div class="attendanceTitle"><div><h2>Live organizer placement plan · ${esc(t.name)}</h2><p class="micro">These instructions update immediately whenever you mark somebody absent. Only active meetings are listed.</p></div><button class="btn" id="printCurrent">Print all teams</button></div><div class="plan planTables"><div><h3>1 · First clue handouts (${s.units.filter(u=>u.length).length})</h3>${table(startingRows(t,s),['Starting unit','Hand to','Starting place / note','First active meeting','Clue to give'])}</div><div><h3>2 · Envelopes to plant (${s.liveMeetings.length})</h3>${table(envelopeRows(t,s),['Meeting','Physical location','Symbol on envelope','People expected','Put inside envelope'])}</div>${s.skipped.length?`<p class="notice warn"><strong>Do not plant:</strong> ${s.skipped.map(id=>esc(label(id))+(t.meetings[id].location?' ('+esc(t.meetings[id].location)+')':'')).join(', ')}. Any participants skipping a round receive the next active meeting’s clue instead.</p>`:''}</div>`;$('printCurrent').onclick=printKit}
+function renderSummary(){
+ const t=data.teams[active],s=get(),ready=s.liveMeetings.filter(id=>PLACES.includes(t.meetings[id].location)).length;
+ $('teamTitle').textContent=t.name+' · '+s.available+' coming';
+ $('summary').innerHTML=`<div class="metric"><strong>${s.available}</strong><span>Attending</span></div><div class="metric"><strong>${s.units.filter(a=>a.length===2).length}</strong><span>Starting duos</span></div><div class="metric"><strong>${ready}/${s.liveMeetings.length}</strong><span>Locations assigned</span></div>`;
+}
+function startingRows(t,s){
+ return s.units.map((people,i)=>{
+  if(!people.length)return null;
+  const id=s.first[i],m=id===null?null:t.meetings[id];
+  return [String(i+1),h(list(people)),id===null?'—':h(m.location),id===null?'—':h(m.symbol)+(id!==parents[i]?' · Bye':''),id===null?'—':h(label(id))];
+ }).filter(Boolean);
+}
+function envelopeRows(t,s){
+ return s.liveMeetings.map(id=>{
+  const m=t.meetings[id],p=s.nextMeeting(id),next=p===null?null:t.meetings[p];
+  return [h(label(id)),h(m.location),h(m.symbol),h(list(s.nodePeople[id])),next?`${h(next.location)} · ${h(next.symbol)}`:'Finish'];
+ });
+}
+function renderPlan(){
+ const t=data.teams[active],s=get();
+ $('plan').innerHTML=`<div class="attendanceTitle"><h2>${esc(t.name)} · Organizer list</h2><button class="btn" id="printCurrent">Print</button></div><div class="plan planTables"><div><h3>First handouts</h3>${table(startingRows(t,s),['Unit','Names','Go to','Symbol','Meeting'])}</div><div><h3>Envelopes</h3>${table(envelopeRows(t,s),['Meeting','Place','Symbol','Who arrives','Inside: next place · symbol'])}</div></div>`;
+ $('printCurrent').onclick=printKit;
+}
 function render(){renderTabs();renderAttendance();renderNotices();renderBracket();renderEditor();renderSummary();renderLocationBoard();renderPlan()}
 function balancePairs(){const t=data.teams[active];const pairs=t.units.filter(u=>unitNames(u).length===2),singles=t.units.filter(u=>unitNames(u).length!==2);if(pairs.length>3){alert('Only up to three starting duos supported in this layout.');return}pairs.sort((a,b)=>{const rank=u=>pairSequence[active].indexOf(unitNames(u)[0]);return (rank(a)<0?99:rank(a))-(rank(b)<0?99:rank(b))});const targets=[0,4,2].slice(0,pairs.length),arr=Array(8);targets.forEach((i,j)=>arr[i]=pairs[j]);let j=0;for(let i=0;i<8;i++)if(!arr[i])arr[i]=singles[j++];t.units=arr;selection=0;reconcileLocations();save();render()}
 const download=(name,contents,type)=>{const blob=new Blob([contents],{type}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000)};
 function showModal(title,help,value,fn){$('modalTitle').textContent=title;$('modalHelp').textContent=help;$('modalText').value=value;$('modalStatus').textContent='';modalApply=fn;$('modalOverlay').classList.remove('hidden');$('modalText').focus()}
 function closeModal(){$('modalOverlay').classList.add('hidden');modalApply=null}
-$('modalCancel').onclick=closeModal;$('modalOverlay').onclick=e=>{if(e.target===$('modalOverlay'))closeModal()};$('modalApply').onclick=()=>modalApply?.($('modalText').value);document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+$('modalCancel').onclick=closeModal;$('modalOverlay').onclick=e=>{if(e.target===$('modalOverlay'))closeModal()};$('modalApply').onclick=()=>modalApply?.($('modalText').value);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSwap();render()}});
 $('pasteBtn').onclick=()=>showModal('Paste 8 starting units','Enter exactly 8 lines, using + to separate people in duos.',data.teams[active].units.map(u=>unitNames(u).join(' + ')).join('\n'),text=>{const lines=text.replace(/\r/g,'').split('\n');if(lines.length!==8){$('modalStatus').textContent='Exactly 8 lines required.';return}lines.forEach((line,i)=>data.teams[active].units[i].names=line.split(/\s+\+\s+/).map(s=>s.trim()).filter(Boolean).join('\n'));data.teams[active].absent=[];reconcileLocations();save();closeModal();render()});
 $('balanceBtn').onclick=balancePairs;
-$('exportBtn').onclick=()=>download('riddle-quest-location-attendance-backup.json',JSON.stringify(data,null,2),'application/json');
+$('exportBtn').onclick=()=>download('riddle-quest-backup.json',JSON.stringify(data,null,2),'application/json');
 $('importBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!valid(d))throw new Error('Invalid five-team quest backup.');data=normalizePlaces(upgradeNames(d));data.teams.forEach(t=>{if(!Array.isArray(t.absent))t.absent=[]});reconcileLocations();save();active=0;selection=0;render()}catch(err){alert('Import failed: '+err.message)}e.target.value=''};
-function makePrint(){let out='<h1>Five-Team Riddle Quest — Attendance-Adjusted Organizer Kit</h1><p>Printed for the people currently marked present. Skipped meetings have NO envelope. A unit with a bye receives its next active meeting clue immediately.</p>';
- const conflicts=symbolConflicts();if(conflicts.length)out+='<p><strong>WARNING:</strong> Conflicting active meeting symbols exist.</p>';
- let missing=[];data.teams.forEach((t,ti)=>derive(t,ti).liveMeetings.forEach(id=>{if(!PLACES.includes(String(t.meetings[id].location||'')))missing.push(t.name+' '+label(id))}));
- if(missing.length)out+='<p><strong>WARNING: Missing approved location assignments:</strong> '+h(missing.join('; '))+'</p>';
- out+='<h2>All-team location schedule</h2>'+table(PLACES.map(place=>[h(place),...([1,2,3].map(r=>{const u=usesAt(r,place);return u.length?u.map(({ti,id})=>h(data.teams[ti].name+' / '+label(id))).join('<br>'):'—'}))]),['Place','Round 1 (max 2)','Round 2 (max 1)','Final (max 1)']);
- data.teams.forEach((t,i)=>{const s=derive(t,i),orig=fullNames(t);out+=`<section class="${i?'page':''}"><h2>${h(t.name)} · ${s.available}/${orig.length} present</h2><p><strong>Absent:</strong> ${h(list(orig.filter(n=>t.absent.includes(n))))}</p>`;
- if(s.moved.length)out+=`<p><strong>Reassignments:</strong> ${s.moved.map(x=>h(x.person)+' moves from Unit '+(x.from+1)+' to Unit '+(x.to+1)).join('; ')}</p>`;
- if(s.skipped.length)out+=`<p><strong>Skipped (NO envelopes):</strong> ${s.skipped.map(id=>h(label(id))).join('; ')}</p>`;
- out+='<h3>1. First handouts</h3>'+table(startingRows(t,s),['Unit','Give to','Starting spot','First real meetup','Clue & symbol'])+'<h3>2. Envelope placement — active meetings only</h3>'+table(envelopeRows(t,s),['Meeting','Location','Label','Arriving people','Contents: NEXT clue'])+'</section>';
+function makePrint(){
+ let out='<h1>Five-Team Riddle Quest · Organizer Kit</h1>';
+ out+='<h2>Location schedule</h2>'+table(PLACES.map(place=>[h(place),...[1,2,3].map(r=>{const used=usesAt(r,place);return used.length?used.map(({ti,id})=>h(data.teams[ti].name+' · '+label(id))).join('<br>'):'—'})]),['Place','Round 1','Round 2','Final']);
+ data.teams.forEach((t,i)=>{
+  const s=derive(t,i);
+  out+=`<section class="${i?'page':''}"><h2>${h(t.name)} · ${s.available}/${fullNames(t).length}</h2>`;
+  if(s.moved.length)out+=`<p>Moved: ${s.moved.map(x=>h(x.person)+' → Unit '+(x.to+1)).join('; ')}</p>`;
+  if(s.skipped.length)out+=`<p>No envelopes: ${s.skipped.map(id=>h(label(id))).join(', ')}</p>`;
+  out+='<h3>First handouts</h3>'+table(startingRows(t,s),['Unit','Names','Destination','Symbol','Meeting']);
+  out+='<h3>Envelopes</h3>'+table(envelopeRows(t,s),['Meeting','Place','Symbol','Participants','Next destination / symbol'])+'</section>';
  });
- out+='<div class="page"><h2>Cut-out FIRST clue cards — attendance adjusted</h2><p>Give one clue to each occupied starting unit, including anyone transferred from a broken-up duo.</p>';
- data.teams.forEach((t,i)=>{const s=derive(t,i);out+=`<h3>${h(t.name)}</h3>`;s.units.forEach((people,k)=>{if(!people.length)return;const p=s.first[k],m=p===null?null:t.meetings[p];out+=`<div class="card"><div class="small">${h(t.name)} · Start unit ${k+1} · For ${h(list(people))}${p!==null&&p!==parents[k]?' · BYE / skip Round 1':''}</div><p class="large">${m?h(m.symbol):'DONE'}</p><strong>${m?h(m.riddle):h(t.finish)}</strong></div>`})});out+='</div>';
- out+='<div class="page"><h2>Cut-out envelopes — ACTIVE meetings only</h2>';
- data.teams.forEach((t,i)=>{const s=derive(t,i);out+=`<h3>${h(t.name)}</h3>`;s.liveMeetings.forEach(id=>{const m=t.meetings[id],p=s.nextMeeting(id),next=p===null?null:t.meetings[p];out+=`<div class="card" style="min-height:100px"><div class="small">${h(t.name)} · ${h(label(id))} · At ${h(m.location)}</div><div class="large">${h(m.symbol)}</div><div class="small">Place inside: ${next?h(next.symbol)+' · '+h(next.riddle):h(t.finish)}</div></div>`})});out+='</div>';
+ out+='<div class="page"><h2>Starting clue cards</h2>';
+ data.teams.forEach((t,i)=>{const s=derive(t,i);out+=`<h3>${h(t.name)}</h3>`;s.units.forEach((people,k)=>{if(!people.length)return;const p=s.first[k],m=p===null?null:t.meetings[p];out+=`<div class="card"><div class="small">${h(t.name)} · ${h(list(people))}</div><p class="large">${m?h(m.symbol):'DONE'}</p><strong>${m?h(m.location):'Finish'}</strong></div>`})});out+='</div>';
+ out+='<div class="page"><h2>Envelope labels</h2>';
+ data.teams.forEach((t,i)=>{const s=derive(t,i);out+=`<h3>${h(t.name)}</h3>`;s.liveMeetings.forEach(id=>{const m=t.meetings[id],p=s.nextMeeting(id),next=p===null?null:t.meetings[p];out+=`<div class="card"><div class="small">${h(t.name)} · ${h(label(id))} · ${h(m.location)}</div><div class="large">${h(m.symbol)}</div><div class="small">Inside: ${next?h(next.location)+' · '+h(next.symbol):'Finish'}</div></div>`})});out+='</div>';
  $('printArea').innerHTML=out;
 }
 function printKit(){makePrint();window.print()}
