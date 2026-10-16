@@ -1,10 +1,11 @@
-# Shared saving setup
+# Shared saving
 
-The site can run offline with device-only saving. To share edits between visitors:
+The site is connected to the Griffons Supabase project. Its shared-state table was confirmed available on October 16, 2026. The project URL and publishable key are in `index.html`; never put a secret or service-role key in the page.
 
-1. Sign in at [Supabase](https://supabase.com/dashboard) and create a project.
-2. Open the project's SQL Editor and run [supabase_setup.sql](supabase_setup.sql).
-3. Open the project's **Connect** dialog and copy its Project URL and **publishable** key. Send those two values to Codex to connect the existing `index.html`. Never send or place a secret/service-role key in the page.
-4. After the connected page is published, open it in the browser with the setup you want everyone to see. If it offers **Use shared** or **Publish mine**, make a JSON backup first, then choose **Publish mine** to make that browser's saved game setup the shared one.
+1. Open the published site first in the browser that already has your preferred game setup. The first visitor initializes the empty shared table from that browser's saved setup.
+2. Check that the page says **Saved for everyone** after an edit. If it offers **Use shared** or **Publish mine**, export a JSON backup first, then choose **Publish mine** to share this browser's setup.
+3. Open the site in another browser or device and refresh it to load the shared setup.
 
-The public site reads the shared setup when opened and saves edits to one shared row. Anyone who can open the page can change it. If a simultaneous edit or connection failure occurs, the page keeps a device copy and shows a sync choice rather than silently discarding changes.
+Anyone with the link can edit. Each edit saves locally immediately and then syncs to the shared table. If a connection fails or two visitors edit at once, the page keeps a device copy and offers a sync choice instead of silently discarding changes. Opening the HTML file offline still works with device-only saving until it reconnects.
+
+The table definition and access policies are in [supabase_setup.sql](supabase_setup.sql) if the project ever needs to be recreated.
