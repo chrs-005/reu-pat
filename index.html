@@ -562,8 +562,8 @@ function makeZip(entries){
  const size=central.reduce((n,b)=>n+b.length,0),end=new Uint8Array([0x50,0x4b,5,6,...u16(0),...u16(0),...u16(entries.length),...u16(entries.length),...u32(size),...u32(cursor),...u16(0)]);
  return collect([...parts,...central,end]);
 }
-function printRun(text,size=22,bold=false,color='2B3642'){
- return `<w:r><w:rPr><w:rFonts w:ascii="Aptos" w:hAnsi="Aptos"/><w:sz w:val="${size}"/>${bold?'<w:b/>':''}<w:color w:val="${color}"/></w:rPr><w:t xml:space="preserve">${xmlEscape(text)}</w:t></w:r>`;
+function printRun(text,size=22,bold=false,color='2B3642',italic=false){
+ return `<w:r><w:rPr><w:rFonts w:ascii="Aptos" w:hAnsi="Aptos"/><w:sz w:val="${size}"/>${bold?'<w:b/>':''}${italic?'<w:i/>':''}<w:color w:val="${color}"/></w:rPr><w:t xml:space="preserve">${xmlEscape(text)}</w:t></w:r>`;
 }
 function paragraph(inner,alignment='center',sp=0,other=''){
  return `<w:p><w:pPr><w:jc w:val="${alignment}"/><w:spacing w:before="0" w:after="${sp}"/>${other}</w:pPr>${inner}</w:p>`;
@@ -573,13 +573,10 @@ function printPicture(num,picId,layout){
  return `<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"><wp:extent cx="${emu}" cy="${emu}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:docPr id="${picId}" name="Meeting symbol ${num}" descr="Black and white meeting symbol ${num}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="0" name="symbol_${String(num).padStart(2,'0')}.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rIdSymbol${num}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${emu}" cy="${emu}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`;
 }
 function cardCell(card,back,picCounter,layout){
- // Page border is the card's cutting guide. In Word, the shaded paragraph is editable.
+ // Page border is the card's cutting guide. Front text remains editable Word text.
  const cellPr=`<w:tcPr><w:tcW w:w="5528" w:type="dxa"/><w:vAlign w:val="center"/><w:tcMar><w:top w:w="200" w:type="dxa"/><w:left w:w="250" w:type="dxa"/><w:bottom w:w="200" w:type="dxa"/><w:right w:w="250" w:type="dxa"/></w:tcMar></w:tcPr>`;
  if(!card)return `<w:tc>${cellPr}${paragraph('')}</w:tc>`;
- if(!back){
-  const boxBorder='<w:pBdr><w:top w:val="dashed" w:sz="8" w:color="8995A3" w:space="13"/><w:bottom w:val="dashed" w:sz="8" w:color="8995A3" w:space="13"/><w:left w:val="dashed" w:sz="8" w:color="8995A3" w:space="13"/><w:right w:val="dashed" w:sz="8" w:color="8995A3" w:space="13"/></w:pBdr><w:shd w:val="clear" w:color="auto" w:fill="F6F8FA"/>';
-  return `<w:tc>${cellPr}${paragraph(printRun('HINT LEADING TO',layout.hintLabelSize,true,'677687'),'center',layout.hintGap)}${paragraph(printRun(card.location,layout.placeSize,true,'101820'),'center',layout.locationGap,boxBorder)}${paragraph(printRun('Replace with your riddle',layout.helperSize,false,'8A96A1'),'center',0)}</w:tc>`;
- }
+ if(!back)return `<w:tc>${cellPr}${paragraph(printRun(card.location,layout.placeSize,false,'3B4653',true))}</w:tc>`;
  const icon=card.symbol>0?paragraph(printPicture(card.symbol,++picCounter.value,layout),'center',layout.iconGap):paragraph(printRun('SYMBOL NOT ASSIGNED',19,true,'8A96A1'));
  const name=card.kind==='initial'
   ?paragraph(printRun(card.person,layout.nameSize,true,'1F2937'))
@@ -587,9 +584,9 @@ function cardCell(card,back,picCounter,layout){
  return `<w:tc>${cellPr}${icon}${name}</w:tc>`;
 }
 const PRINT_LAYOUTS={
- 4:{columns:2,rows:2,rowHeight:7900,pictureMM:62,placeSize:30,hintLabelSize:18,helperSize:17,nameSize:24,hintGap:400,locationGap:200,iconGap:200},
- 6:{columns:2,rows:3,rowHeight:5265,pictureMM:45,placeSize:26,hintLabelSize:16,helperSize:15,nameSize:22,hintGap:260,locationGap:120,iconGap:120},
- 8:{columns:2,rows:4,rowHeight:3950,pictureMM:34,placeSize:24,hintLabelSize:15,helperSize:14,nameSize:20,hintGap:140,locationGap:90,iconGap:80}
+ 4:{columns:2,rows:2,rowHeight:7200,pictureMM:62,placeSize:20,nameSize:24,iconGap:200},
+ 6:{columns:2,rows:3,rowHeight:4800,pictureMM:45,placeSize:18,nameSize:22,iconGap:120},
+ 8:{columns:2,rows:4,rowHeight:3600,pictureMM:34,placeSize:16,nameSize:20,iconGap:80}
 };
 function printableTable(cards,back,picCounter,layout){
  // Two columns; long-edge duplex mirrors the left/right columns on every back page.
