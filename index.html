@@ -202,7 +202,7 @@ function reconcileLocations(){
 normalizePlaces(data);applySymbols(data);reconcileLocations();
 let active=0, selection=0, selectedNameSlot=null, dragSourceSlot=null;
 const sharedEnabled=Boolean(SHARED_PROJECT_URL&&SHARED_PUBLISHABLE_KEY);
-let sharedRevision=null, sharedReady=false, sharedDirty=false, sharedSaving=false, sharedConflict=false, sharedRemote=null, sharedTimer=null;
+let sharedRevision=null, sharedReady=false, sharedDirty=false, sharedSaving=false, sharedConflict=false, sharedRemote=null, sharedTimer=null, sharedRefreshing=false;
 function setSyncStatus(message){$('syncStatus').textContent=message}
 function saveLocal(){try{localStorage.setItem(STORE,JSON.stringify(data))}catch(e){console.warn('Could not save locally',e)}}
 function save(){
@@ -224,17 +224,17 @@ async function sharedRequest(method,query='',body){
 }
 function showSyncChoice(){
  const holder=$('syncStatus');holder.textContent='This device and the shared setup differ. ';
- const load=document.createElement('button');load.type='button';load.textContent='Use shared';load.onclick=useSharedVersion;
+ const load=document.createElement('button');load.type='button';load.textContent='Use shared';load.onclick=()=>useSharedVersion();
  const publish=document.createElement('button');publish.type='button';publish.textContent='Publish mine';publish.onclick=()=>{sharedConflict=false;sharedDirty=true;try{localStorage.setItem(SHARED_PENDING,'1')}catch{};queueSharedSave(0)};
  holder.append(load,publish);
 }
-function useSharedVersion(){
+function useSharedVersion(preserveView=false){
  if(!sharedRemote||!valid(sharedRemote))return;
  data=applySymbols(normalizePlaces(upgradeNames(structuredClone(sharedRemote))));
  data.teams.forEach(t=>{if(!Array.isArray(t.absent))t.absent=[]});
  reconcileLocations();sharedDirty=false;sharedConflict=false;
  try{localStorage.removeItem(SHARED_PENDING);localStorage.setItem(SHARED_SEEN,'1')}catch{}
- saveLocal();active=0;selection=0;selectedNameSlot=null;render();setSyncStatus('Shared setup loaded');
+ saveLocal();if(!preserveView){active=0;selection=0}selectedNameSlot=null;dragSourceSlot=null;render();setSyncStatus('Shared setup loaded');
 }
 async function initShared(){
  if(!sharedEnabled){setSyncStatus('Saved on this device');return}
@@ -275,6 +275,18 @@ async function pushShared(){
   }else queueSharedSave(0);
  }catch(e){console.warn('Could not save shared setup',e);setSyncStatus('Saved on this device; shared sync pending');queueSharedSave(15000)}
  finally{sharedSaving=false}
+}
+async function refreshShared(){
+ if(!sharedReady||sharedRefreshing||sharedConflict||sharedSaving||dragSourceSlot!==null)return;
+ sharedRefreshing=true;
+ try{
+  const rows=await sharedRequest('GET','?id=eq.main&select=state,revision');
+  if(sharedSaving||!rows.length||!valid(rows[0].state)||Number(rows[0].revision)<=sharedRevision)return;
+  sharedRevision=Number(rows[0].revision);sharedRemote=rows[0].state;
+  if(sharedDirty){sharedConflict=true;clearTimeout(sharedTimer);showSyncChoice();return}
+  useSharedVersion(true);setSyncStatus('Updated from shared setup');
+ }catch(e){console.warn('Could not refresh shared setup',e)}
+ finally{sharedRefreshing=false}
 }
 function derive(t,ti){
  const absent=new Set(t.absent||[]);
@@ -630,7 +642,12 @@ try{const stored=localStorage.getItem('griffons-print-count');if(PRINT_LAYOUTS[N
 $('printLayoutSelect').addEventListener('change',()=>{try{localStorage.setItem('griffons-print-count',$('printLayoutSelect').value)}catch(e){}});
 
 saveLocal();render();initShared();
-if(sharedEnabled)window.addEventListener('online',()=>{if(sharedReady&&sharedDirty&&!sharedConflict)queueSharedSave(0);else if(!sharedReady)initShared()});
+if(sharedEnabled){
+ window.addEventListener('online',()=>{if(sharedReady){if(sharedDirty&&!sharedConflict)queueSharedSave(0);refreshShared()}else initShared()});
+ window.addEventListener('focus',refreshShared);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshShared()});
+ setInterval(refreshShared,5000);
+}
 })();
 </script>
 </body>
